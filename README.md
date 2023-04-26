@@ -5,7 +5,7 @@ Node.js command-line application that takes in information about employees on a 
 - Kole Dallam
 
 # Built Using 🚧
-- JavaScript
+- JAVASCRIPT
 - NODE
 - HTML
 - CSS
