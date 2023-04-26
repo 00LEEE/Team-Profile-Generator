@@ -48,4 +48,50 @@ inquirer
             name: "mgrOfficeNum"
         }
     ])
-    
+    .then((answers) => {
+        
+        team.teamName = toNameCase(answers.teamName);
+
+        let mgr = new Manager(
+            toNameCase(answers.mgrName), 
+            answers.mgrID,
+            answers.mgrEmail.toLowerCase(),
+            answers.mgrOfficeNum
+        );
+
+        team.managers.push(mgr);
+        console.log("\nTeam name and first manager added successfully.")
+
+        mainMenu();
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+
+function mainMenu() {
+    console.log("\n=====================\n----  MAIN MENU  ----\n=====================\n");
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "What would you like to do?",
+                choices: ["Add team member", "Finish entering data and build the webpage", "Exit without generating the webpage"],
+                name: "mainMenuAction"
+            },
+            
+            {
+                type: "list",
+                message: "Are you sure you would like to move on? You'll have a chance to review your team and add more members if needed.",
+                choices: ["Yes, continue to team review", "No, go back to the main menu"],
+                name: "finishYesNo",
+                when: (answers) => answers.mainMenuAction === "Finish entering data and build the webpage"
+            },
+            {
+                type: "list",
+                message: "Are you sure you want to exit now? All information entered will be permanently lost.",
+                choices: ["Yes, exit now without saving", "No, go back to the main menu"],
+                name: "exitYesNo",
+                when: (answers) => answers.mainMenuAction === "Exit without generating the webpage"
+            }
+        ])
+        
