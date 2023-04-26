@@ -94,4 +94,76 @@ function mainMenu() {
                 when: (answers) => answers.mainMenuAction === "Exit without generating the webpage"
             }
         ])
+        .then((answers) => {
+            switch (answers.mainMenuAction) {
+                case "Add team member":
+                    addMemberToTeam(team);
+                    break;
+                
+                case "Edit my team":
+                    editTeam(team);
+                    break;
+
+                case "Finish entering data and build the webpage":
+                    if (answers.finishYesNo === "Yes, continue to team review") {
+                        generateWebpage(team);
+                    } else {
+                        mainMenu();
+                    }
+                    break;
+
+                case "Exit without generating the webpage":
+                    if (answers.exitYesNo === "No, go back to the main menu") {
+                        mainMenu();
+                    } else {
+                        
+                        console.log("Teampage Generator run terminated. Goodbye!");
+                    }
+                    break;
+
+                default:
+                    console.log("ERROR: Invaild selection somehow passed in. Returning to main menu.");
+                    mainMenu();
+            }
+        });
+}
+
+
+function addMemberToTeam(team) {
+    console.log("\nEnter the following for new team member:");
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Role:",
+                choices: ["Manager", "Engineer", "Intern"],
+                name: "newMemberRole"
+            },
+            {
+                type: "input",
+                message: "Name:",
+                name: "newMemberName"
+            },
+            {
+                type: "input",
+                message: "Employee ID:",
+                name: "newMemberID"
+            },
+            {
+                type: "input",
+                message: "Email Address:",
+                name: "newMemberEmail"
+            },
+            {
+                type: "input",
+                message: (answers) => `${getRoleSpecificDataField(answers.newMemberRole)}:`,
+                name: "newMemberRoleSpecificInfo"
+            },
+            {
+                type: "list",
+                message: "Add another team member?",
+                choices: ["Yes, add another", "No, go back to main menu"],
+                name: "addAnotherTeamMemberYesNo"
+            }
+        ])
         
