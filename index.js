@@ -166,4 +166,58 @@ function addMemberToTeam(team) {
                 name: "addAnotherTeamMemberYesNo"
             }
         ])
-        
+        .then((answers) => {
+
+            let newMember;
+
+            switch (answers.newMemberRole) {
+                case "Manager":
+                    newMember = new Manager(
+                        toNameCase(answers.newMemberName),
+                        answers.newMemberID,
+                        answers.newMemberEmail.toLowerCase(),
+                        toNameCase(answers.newMemberRoleSpecificInfo)
+                    );
+                    break;
+
+                case "Engineer":
+                    newMember = new Engineer(
+                        toNameCase(answers.newMemberName),
+                        answers.newMemberID,
+                        answers.newMemberEmail.toLowerCase(),
+                        toNameCase(answers.newMemberRoleSpecificInfo)
+                    );
+                    break;
+
+                case "Intern":
+                    newMember = new Intern(
+                        toNameCase(answers.newMemberName),
+                        answers.newMemberID,
+                        answers.newMemberEmail.toLowerCase(),
+                        toNameCase(answers.newMemberRoleSpecificInfo)
+                    );
+                    break;
+
+                default:
+                    console.error(`addMemberToTeam() :: Error when adding new member: Unexpected role "${answers.newMemberRole}" in switch statement.\nReturning to main menu.`);
+                    mainMenu();
+                    break;
+            }
+
+            team[`${answers.newMemberRole.toLowerCase()}s`].push(newMember);
+
+            if (answers.addAnotherTeamMemberYesNo === "Yes, add another") {
+                addMemberToTeam(team);
+            } else {
+                mainMenu();
+            }
+        })
+        .catch((error) => {
+            if (error.isTtyError) {
+                console.error("Error: Prompt couldn't be rendered in the current environment");
+            } else {
+                console.error(error);
+            }
+        });
+}
+
