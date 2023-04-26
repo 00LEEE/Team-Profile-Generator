@@ -221,3 +221,98 @@ function addMemberToTeam(team) {
         });
 }
 
+function generateWebpage(team) {
+
+    console.log("Here's your team so far:");
+
+    printTeam(team);
+
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Does this look correct and complete?",
+                choices: ["No, go back to main menu", "Yes, generate webpage now"],
+                name: "generateNowYesNo"
+            }
+        ])
+        .then((answers) => {
+            if (answers.generateNowYesNo === "Yes, generate webpage now") {
+
+                if (!fs.existsSync("./dist/")) {
+                    fs.mkdirSync("./dist/");
+                }
+
+                let folderName = team.teamName; 
+                let distFiles = fs.readdirSync(`./dist/`, (err) => {if (err) console.error(err)});
+                let numDupeFolders = 0;
+                for (fileName of distFiles) {
+                    if (fileName.startsWith(team.teamName)) {
+                        numDupeFolders++;
+                        folderName = `${team.teamName}_${numDupeFolders + 1}`;
+                    }
+                }
+
+                fs.mkdirSync(`./dist/${folderName}/`);
+                
+                fs.writeFile(
+                    `./dist/${folderName}/index.html`, 
+                    generateHTML(team), 
+                    ((err) => err ? console.error(err) : console.log(`File ./dist/${folderName}/index.html successfully written!`)) // callback function
+                );
+
+                fs.writeFile(
+                    `./dist/${folderName}/style.css`,
+                    generateCSS(),
+                    ((err) => err ? console.error(err) : console.log(`File ./dist/${folderName}/style.css successfully written!`))
+                );
+
+            } else {
+                mainMenu();
+            }
+        });
+}
+ 
+function printTeam(team) {
+
+    console.log(team.teamName);
+
+    for (let memberListName in team) {
+        if (typeof team[memberListName] !== "string") {
+            console.log(`+-------------- ${memberListName.toUpperCase()} ---------------\n|`);
+            for (let member of team[memberListName]) {
+                
+                for (let data of Object.values(member)) { 
+                    console.log(`|  ${data}`);
+                }
+                console.log("|"); 
+                
+            }
+        } else continue; 
+    }
+
+    console.log("+---------------------------------------");
+}
+
+function getRoleSpecificDataField(role) {
+    switch (role) {
+        case "Manager":
+            return "Office Number";
+        
+        case "Engineer":
+            return "GitHub Username";
+
+        case "Intern":
+            return "School";
+
+        default:
+            console.error("ERROR: Bad value detected for `role` variable inside index.js/getRoleSpecificDataField().\nIf prompted for input, enter the appropriate data for this member's role:\nManager: Office number\nEngineer: GitHub Username\nIntern: School Name.\nI apologize for this error.");
+    }
+}
+
+function toNameCase(str) {
+    return str.trim() 
+    .split(" ") 
+    .map(word => word[0].toUpperCase() + word.substring(1)) 
+    .join(" ");
+}
