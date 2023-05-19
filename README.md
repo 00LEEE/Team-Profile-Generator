@@ -9,6 +9,8 @@ Node.js command-line application that takes in information about employees on a 
 - NODE
 - HTML
 - CSS
+- JEST
+- BABEL
 
 # Trials I Experienced 😡
 - running the tests for all parties was a little difficult for me as I had to get help from a lot of my peers; ultimately figuring things out.
