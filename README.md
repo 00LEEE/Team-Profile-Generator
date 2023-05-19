@@ -22,9 +22,9 @@ To use the Team Page Generator:
 1. Fork this repository
 2. Open a bash/CMD/powershell terminal in the root folder
 3. Enter npm i to install the project dependencies (Inquirer and Jest)
-4. Enter node index.js to start the software
+4. Enter npm start to start the software
 5. Follow the prompts, enter your data, and generate the Team Page
-6. Locate your completed Team Page in the dist/ folder
+6. Locate your completed Team Page in the dist/ folder in the repo.
 
 
 # Licensed
