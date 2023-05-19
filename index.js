@@ -1,24 +1,31 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const Employee = require('./lib/employee.js');
+const Manager = require("./lib/manager.js");
+const Engineer = require("./lib/engineer.js");
+const Intern = require("./lib/intern.js");
 
-const Employee = require("../lib/employee");
-const Manager = require("../lib/Manager");
-const Engineer = require("../lib/Engineer");
-const Intern = require("../lib/Intern");
-
-const generateHTML = require("./src/generateHTML");
-const generateCSS = require("./src/generateCSS");
+const generateHTML = require('./src/generateHTML');
+const generateCSS = require('./src/generateCSS');
 
 let team = {
-    teamName: "",
-    managers: [],
-    engineers: [],
-    interns: []
+  teamName: "",
+  managers: [],
+  engineers: [],
+  interns: []
 };
 
 console.log("Welcome to OOLEEE's Team Page Generator!");
+console.log(
+  "\nA series of prompts will guide you through creating a webpage\nthat will store useful info and links about your team members.\n"
+);
+console.log(
+  "To begin, you must enter a Team Name and at least one Team Manager.\n"
+);
+
+console.log("Welcome to OOLEEE's Team Page Generator!");
 console.log("\nA series of prompts will guide you through creating a webpage\nthat will store useful info and links about your team members.\n");
-console.log("To begin, you must enter a Team Name and at least one Team Manager.\n")
+console.log("To begin, you must enter a Team Name and at least one Team Manager.\n");
 
 inquirer
     .prompt([

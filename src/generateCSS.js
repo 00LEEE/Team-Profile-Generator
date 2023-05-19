@@ -1,4 +1,4 @@
-// This CSS is hard-coded. I only put it here so that I could keep this massive block of text tucked away and out of sight.
+
 function generateCSS() {
     return `:root {
     --manager: #ce4384;

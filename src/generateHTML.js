@@ -34,7 +34,7 @@ function generateHTML(team) {
             </div>
             <div class="card-body">
               <ul>
-                <li>ID: ${member.getID()}</li>
+              <li>ID: ${member.getId()}</li>
                 <li>Email Address: <a target="_blank" href="mailto:${email}">${email}</a></li>
                 <li>${roleSpecificField}: ${displayRoleSpecificData(member)}</li>
               </ul>
